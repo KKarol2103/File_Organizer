@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 from itertools import chain
 
-def get_all_files_from_dir(dir_path: Path) -> Path:
+def get_all_files_from_dir(dir_path: Path) -> list[Path]:
     return [path for path in dir_path.glob('**/*') if path.is_file()]
 
 def compare_two_files(file1: Path, file2: Path) -> bool:
@@ -14,6 +14,9 @@ def compare_two_files(file1: Path, file2: Path) -> bool:
 def check_if_file_empty(file: Path) -> bool:
     return True if os.stat(file).st_size == 0 else False
 
+def find_empty_files(all_files: list[Path]) -> list[Path]:
+    return filter(check_if_file_empty, all_files)
+
 def remove_empty_files_from_fs(empty_files: list[Path]):
     for e_file in list(empty_files):
         os.remove(e_file)
@@ -23,7 +26,7 @@ def organize_fs(dst_dir: Path, *args):
     all_fs_files = [get_all_files_from_dir(dir) for dir in args]
     all_fs_files = list(chain.from_iterable(all_fs_files))
     all_fs_files.extend(dst_dir_files)
-    empty_files = filter(check_if_file_empty, all_fs_files)
+    empty_files = find_empty_files(all_fs_files)
     remove_empty_files_from_fs(empty_files)
 
 
