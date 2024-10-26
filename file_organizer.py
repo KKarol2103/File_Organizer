@@ -47,7 +47,15 @@ def organize_fs(dst_dir: Path, *args):
 
 
 def main():
-    print(Path.cwd())
+    parser = ArgumentParser()
+    parser.add_argument("dst_dir", help="Main dir where we want to organize our files into", type=Path)
+    parser.add_argument("other_dir", help="Other dir", nargs='+', type=Path)
+    args = parser.parse_args()
+    print(f'Main Directory Selected: {args.dst_dir}')
+    print(f'Other Directories: {args.other_dir}')
+
+    print('Welcome to the file organizer!')
+    print("Starting organizing!")
 
 if __name__ == "__main__":
     main()
