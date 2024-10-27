@@ -40,22 +40,34 @@ def get_all_fs_files(dst_dir, *args) -> list[Path]:
     all_fs_files.extend(dst_dir_files)
     return all_fs_files
 
-def organize_fs(dst_dir: Path, *args):
-    all_fs_files = get_all_fs_files(dst_dir, args)
-    empty_files = find_empty_files(all_fs_files)
-    remove_empty_files_from_fs(empty_files)
+def find_empty_files_and_duplicates(all_fs_files: list[Path]) -> tuple:
+    return find_empty_files(all_fs_files) , find_duplicates(all_fs_files)
 
+def organize_fs(dst_dir: Path, *args):
+    all_fs_files = get_all_fs_files(dst_dir, *args)
+    empty_files, duplicates = find_empty_files_and_duplicates(all_fs_files)
+    # TODO temp
+
+    print("Empty files found: ")
+    for index, e_file in enumerate(empty_files):
+        print(f'{index}: at {Path.absolute(e_file)}')
+     
 
 def main():
     parser = ArgumentParser()
     parser.add_argument("dst_dir", help="Main dir where we want to organize our files into", type=Path)
     parser.add_argument("other_dir", help="Other dir", nargs='+', type=Path)
     args = parser.parse_args()
+
+    other_dirs = args.other_dir[0] if len(args.other_dir) == 1 else args.other_dir
+
     print(f'Main Directory Selected: {args.dst_dir}')
     print(f'Other Directories: {args.other_dir}')
 
     print('Welcome to the file organizer!')
     print("Starting organizing!")
+    print("Looking for empty files and duplicates")
+    organize_fs(args.dst_dir, *other_dirs)
 
 if __name__ == "__main__":
     main()
