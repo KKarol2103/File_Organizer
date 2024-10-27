@@ -27,6 +27,12 @@ def test_if_file_is_empty(messy_fs):
     assert check_if_file_empty(Path('X/some_dir/empty.dat')) is True
     assert check_if_file_empty(Path('X/a.txt')) is False
 
+def test_find_empty_files_in_small_fs(messy_fs):
+    all_files = get_all_fs_files(Path('X'), Path('Y1'))
+    empty_files = list(find_empty_files(all_files))
+    assert Path('X/some_dir/empty.dat') in empty_files
+    assert len(empty_files) == 1
+
 def test_find_empty_files_in_fs(messy_fs):
     all_files = get_all_fs_files(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))
     empty_files = list(find_empty_files(all_files))
