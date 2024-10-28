@@ -22,7 +22,7 @@ touch Y1/trips/trip_to_US.docx
 touch Y1/trips/Ncosts.txt
 
 echo "Photo1" > Y1/photo_cpy.png
-echo "Photo1" > Y1/trips/trip_to_US.docx
+echo "Info about trip" > Y1/trips/trip_to_US.docx
 echo "trip costs" > Y1/trips/Ncosts.txt
 
 echo "Photo1" > Y2/photos/photo1.png

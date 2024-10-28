@@ -1,4 +1,6 @@
 import pytest
+import time
+import os
 from pyfakefs.fake_filesystem_unittest import Patcher
 
 
@@ -42,4 +44,18 @@ def messy_fs():
         patcher.fs.create_file('Y3/empty1.dat')
         patcher.fs.create_file('Y3/empty2.dat')
 
+        yield patcher.fs
+
+
+@pytest.fixture
+def small_fs():
+    with Patcher(allow_root_user=False) as patcher:
+        creation_time1 = time.mktime(time.strptime('2024-10-25', '%Y-%m-%d'))
+        creation_time2 = time.mktime(time.strptime('2024-10-28', '%Y-%m-%d'))
+        patcher.fs.create_dir('X')
+        patcher.fs.create_file('X/my_doc.pdf', contents='some_documents')
+        patcher.fs.create_dir('Y')
+        patcher.fs.create_file('Y/my_doc.pdf', contents='some_documents + more')
+        os.utime('X/my_doc.pdf', (creation_time1, creation_time1))
+        os.utime('Y/my_doc.pdf', (creation_time2, creation_time2))
         yield patcher.fs
