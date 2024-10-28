@@ -132,6 +132,8 @@ def organize_fs(dst_dir: Path, *args):
     if duplicates:
         show_duplicates(duplicates)
         dec = ask_what_to_do_with_duplicates(dst_dir)
+        if dec == 1:
+            remove_duplicates(dst_dir, duplicates)
 
         
      
