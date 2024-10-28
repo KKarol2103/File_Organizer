@@ -55,12 +55,13 @@ def test_find_duplicates(messy_fs):
     assert len(duplicates.keys()) == 6
     
 
-# def test_remove_empty_files_from_fs(messy_fs):
-#     fs_size_before = len(get_all_fs_files(Path('X'), Path('Y1'), Path('Y2'), Path('Y3')))
-#     organize_fs(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))
-#     fs_size_after = len(get_all_fs_files(Path('X'), Path('Y1'), Path('Y2'), Path('Y3')))
+def test_remove_empty_files_from_fs(messy_fs, monkeypatch):
+    fs_size_before = len(get_all_fs_files(Path('X'), Path('Y1'), Path('Y2'), Path('Y3')))
+    monkeypatch.setattr('builtins.input', lambda _: "1")
+    organize_fs(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))
+    fs_size_after = len(get_all_fs_files(Path('X'), Path('Y1'), Path('Y2'), Path('Y3')))
 
-#     assert messy_fs.exists('X/some_dir/empty.dat') is False
-#     assert messy_fs.exists('Y3/empty1.dat') is False
-#     assert fs_size_after == fs_size_before - 4
+    assert messy_fs.exists('X/some_dir/empty.dat') is False
+    assert messy_fs.exists('Y3/empty1.dat') is False
+    assert fs_size_after == fs_size_before - 4
 
