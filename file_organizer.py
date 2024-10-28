@@ -77,10 +77,6 @@ def show_duplicates(duplicates: defaultdict[Path, list[Path]]):
             print(f'Location: {dup}')
         index += 1
         print('\n')
-    
-    print("Now decide what to do with duplicates")
-    print("1. Delete all duplicates outside main dir")
-    print("2. Leave all duplicates")
 
 
 
@@ -91,6 +87,23 @@ def get_decision_from_user()->int:
     print('2. Leave all empty files')
     print('3. Remove only selected files')
     return int(input("Decision:"))
+
+
+def ask_what_to_do_with_duplicates(main_dir: Path) -> int:
+    print("Decide what to do with duplicates")
+    print(f'1. Delete all duplicates outside main dir (outside {main_dir})')
+    print("2. Leave all duplicates")
+    return int(input("Decision:"))
+
+
+def remove_duplicates(main_dir: Path, duplicates: defaultdict[Path, list[Path]]):
+    for file, f_duplicates in duplicates.items():
+        duplicates_together = f_duplicates + [file]
+        for dup in duplicates_together:
+            if str(main_dir) not in str(dup):
+                os.remove(dup)
+        
+
 
 
 def perform_action(decision: int, empty_files:list[Path]):
@@ -118,6 +131,8 @@ def organize_fs(dst_dir: Path, *args):
         perform_action(dec, empty_files)
     if duplicates:
         show_duplicates(duplicates)
+        dec = ask_what_to_do_with_duplicates(dst_dir)
+
         
      
 

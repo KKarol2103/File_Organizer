@@ -8,6 +8,7 @@ from file_organizer import (get_all_files_from_dir,
                              get_all_fs_files,
                              find_duplicates,
                              check_if_file_is_newer_ver_of_other,
+                             remove_duplicates,
                              Path)
 from messy_fs import messy_fs, small_fs
 
@@ -65,6 +66,16 @@ def test_remove_empty_files_from_fs(messy_fs, monkeypatch):
     assert messy_fs.exists('X/some_dir/empty.dat') is False
     assert messy_fs.exists('Y3/empty1.dat') is False
     assert fs_size_after == fs_size_before - 4
+
+
+
+def test_remove_duplicates(messy_fs):
+    all_files = get_all_fs_files(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))
+    duplicates = find_duplicates(all_files)
+    remove_duplicates(Path('X'), duplicates)
+    all_files = get_all_fs_files(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))
+    duplicates_after = find_duplicates(all_files)
+    assert not duplicates_after.values()
 
 
 def test_detect_newer_ver_of_file(small_fs):
