@@ -2,65 +2,44 @@ import os
 from argparse import ArgumentParser
 from collections import defaultdict
 from pathlib import Path
-from itertools import chain
+from file_finder import FileSysFinder
+from file_comparision import FileComparision
 
-def get_all_files_from_dir(dir_path: Path) -> list[Path]:
-    return [path for path in dir_path.glob('**/*') if path.is_file()]
-
-
-def get_all_fs_files(dst_dir, *args) -> list[Path]:
-    dst_dir_files = get_all_files_from_dir(dst_dir)
-    other_dir_files = [get_all_files_from_dir(dir) for dir in args]
-    all_fs_files = list(chain.from_iterable(other_dir_files))
-    all_fs_files.extend(dst_dir_files)
-    return all_fs_files
+class FileOrganizer:
+    def __init__(self, main_dir: Path, *args: tuple[Path]):
+        self._main_dir = main_dir
+        self._other_directories = list(args)
+        self.file_finder = FileSysFinder(self._other_directories + [main_dir])
 
 
-def compare_two_files(file1: Path, file2: Path) -> bool:
-    with open(file1, 'rb') as file1_h, open(file2, 'rb') as file2_h:
-        return file1_h.read() == file2_h.read()
+    def organize_fs(self):
+        all_fs_files = self.file_finder.files
+        empty_files, duplicates = self.file_finder.find_empty_files(), self.file_finder.find_duplicates()
+        if empty_files:
+            show_empty_files(empty_files)
+            dec = get_decision_from_user()
+            perform_action(dec, empty_files)
+        if duplicates:
+            show_duplicates(duplicates)
+            dec = ask_what_to_do_with_duplicates(self._main_dir)
+            if dec == 1:
+                self.remove_duplicates(self._main_dir, duplicates)
+
+
+    def remove_files_from_fs(self, files_to_remove: list[Path]):
+        for file in list(files_to_remove):
+            os.remove(Path.absolute(file))
+        self.file_finder.update()
     
-def check_if_file_empty(file: Path) -> bool:
-    return True if os.stat(file).st_size == 0 else False
 
-def find_empty_files(all_files: list[Path]) -> list[Path]:
-    return list(filter(check_if_file_empty, all_files))
+    def remove_duplicates(self, main_dir: Path, duplicates: defaultdict[Path, list[Path]]):
+        for file, f_duplicates in duplicates.items():
+            duplicates_together = f_duplicates + [file]
+            for dup in duplicates_together:
+                if str(main_dir) not in str(dup):
+                    os.remove(dup)
+        self.file_finder.update()
 
-def find_duplicates(all_files: list[Path]) -> dict[Path, list[Path]]:
-    duplicates = defaultdict(list)
-    for index, file in enumerate(all_files):
-        if file in list(chain.from_iterable(duplicates.values())):
-            continue
-
-        for another_file in all_files[index+1:]:
-            if compare_two_files(file, another_file):
-                duplicates[file].append(another_file)
-    
-    return duplicates
-
-def find_empty_files_and_duplicates(all_fs_files: list[Path]) -> tuple:
-    return find_empty_files(all_fs_files) , find_duplicates(all_fs_files)
-
-
-def check_if_file_is_newer_ver_of_other(file1: Path, file2: Path) -> bool:
-    return os.stat(file1).st_ctime >= os.stat(file2).st_ctime 
-
-def find_newer_ver_of_file(all_files: list[Path]):
-    newer_ver = defaultdict(list)
-    for index, file in enumerate(all_files):
-        if file in list(chain.from_iterable(newer_ver.values())):
-            continue
-
-        for another_file in all_files[index+1:]:
-            if check_if_file_is_newer_ver_of_other(file, another_file):
-                newer_ver[file].append(another_file)
-    
-    return newer_ver
-
-
-def remove_files_from_fs(files_to_remove: list[Path]):
-    for file in list(files_to_remove):
-        os.remove(Path.absolute(file))
 
 def show_empty_files(empty_files: list[Path]):
     print("Empty files found: ")
@@ -79,8 +58,6 @@ def show_duplicates(duplicates: defaultdict[Path, list[Path]]):
         print('\n')
 
 
-
-
 def get_decision_from_user()->int:
     print("Decide what to do with empty files:")
     print('1. Remove all empty files')
@@ -94,14 +71,6 @@ def ask_what_to_do_with_duplicates(main_dir: Path) -> int:
     print(f'1. Delete all duplicates outside main dir (outside {main_dir})')
     print("2. Leave all duplicates")
     return int(input("Decision:"))
-
-
-def remove_duplicates(main_dir: Path, duplicates: defaultdict[Path, list[Path]]):
-    for file, f_duplicates in duplicates.items():
-        duplicates_together = f_duplicates + [file]
-        for dup in duplicates_together:
-            if str(main_dir) not in str(dup):
-                os.remove(dup)
         
 
 
@@ -109,7 +78,8 @@ def remove_duplicates(main_dir: Path, duplicates: defaultdict[Path, list[Path]])
 def perform_action(decision: int, empty_files:list[Path]):
     if decision == 1:
         print("Removing empty files...")
-        remove_files_from_fs(empty_files)
+        # TODO think about it
+        # remove_files_from_fs(empty_files)
         print("Done")
 
     if decision == 3:
@@ -117,23 +87,12 @@ def perform_action(decision: int, empty_files:list[Path]):
         while(remove_mode):
             print("Type file number to remove")
             f_number = int(input('File number: '))
-            remove_files_from_fs([empty_files[f_number]])
+            # remove_files_from_fs([empty_files[f_number]])
             print('File removed')
             dec = input("Would You like to remove other files? [y/n]")
             remove_mode = True if dec == 'y' else False
 
-def organize_fs(dst_dir: Path, *args):
-    all_fs_files = get_all_fs_files(dst_dir, *args)
-    empty_files, duplicates = find_empty_files_and_duplicates(all_fs_files)
-    if empty_files:
-        show_empty_files(empty_files)
-        dec = get_decision_from_user()
-        perform_action(dec, empty_files)
-    if duplicates:
-        show_duplicates(duplicates)
-        dec = ask_what_to_do_with_duplicates(dst_dir)
-        if dec == 1:
-            remove_duplicates(dst_dir, duplicates)
+
 
         
      
@@ -152,7 +111,8 @@ def main():
 
     print('Welcome to the file organizer!')
     print("Starting organizing!")
-    organize_fs(args.dst_dir.absolute(), *absolute_paths)
+    file_organizer = FileOrganizer(args.dst_dir.absolute(), *absolute_paths)
+    file_organizer.organize_fs()
 
 if __name__ == "__main__":
     main()
