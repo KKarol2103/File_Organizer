@@ -37,7 +37,6 @@ def test_find_empty_files_in_small_fs(messy_fs):
 
 def test_find_empty_files_in_fs(messy_fs):
     f_finder = FileSysFinder([Path('X'), Path('Y1'), Path('Y2'), Path('Y3')])
-    all_files = f_finder.get_all_files()
     empty_files = list(f_finder.find_empty_files())
     assert Path('X/some_dir/empty.dat') in empty_files
     assert Path('Y3/empty.dat') in empty_files
@@ -62,8 +61,7 @@ def test_find_duplicates(messy_fs):
 def test_remove_empty_files_from_fs(messy_fs):
     f_organizer = FileOrganizer(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))
     fs_size_before = len(f_organizer.file_finder.get_all_files())
-    empty_files = f_organizer.file_finder.find_empty_files()
-    f_organizer.remove_files_from_fs(empty_files)
+    f_organizer.remove_empty_files()
     fs_size_after = len(f_organizer.file_finder.get_all_files())
     assert messy_fs.exists('X/some_dir/empty.dat') is False
     assert messy_fs.exists('Y3/empty1.dat') is False
