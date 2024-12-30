@@ -36,21 +36,20 @@ class FileOrganizerUI:
         return int(input("Decision:"))
 
     @staticmethod
-    def perform_action(decision: int, empty_files:list[Path]):
+    def ask_which_files_to_remove() -> list[int]:
+        f_numbers_as_str = input('File number: ').split()
+        f_numbers = [int(f_str) for f_str in f_numbers_as_str]
+        return f_numbers
+
+
+    @staticmethod
+    def show_action(decision: int):
         if decision == 1:
             print("Removing empty files...")
-            # TODO think about it
-            # remove_files_from_fs(empty_files)
-            print("Done")
 
         if decision == 3:
-            remove_mode = True
-            while(remove_mode):
-                print("Type file number to remove")
-                f_number = int(input('File number: '))
-                # remove_files_from_fs([empty_files[f_number]])
-                print('File removed')
-                dec = input("Would You like to remove other files? [y/n]")
-                remove_mode = True if dec == 'y' else False
+            print("Type file numbers to remove - SEPARATE BY SPACE")
+
+            
 
 

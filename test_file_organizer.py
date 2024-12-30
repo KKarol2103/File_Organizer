@@ -61,7 +61,7 @@ def test_find_duplicates(messy_fs):
 def test_remove_empty_files_from_fs(messy_fs):
     f_organizer = FileOrganizer(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))
     fs_size_before = len(f_organizer.file_finder.get_all_files())
-    f_organizer.remove_empty_files()
+    f_organizer.remove_files_from_fs(f_organizer.file_finder.find_empty_files())
     fs_size_after = len(f_organizer.file_finder.get_all_files())
     assert messy_fs.exists('X/some_dir/empty.dat') is False
     assert messy_fs.exists('Y3/empty1.dat') is False
@@ -75,6 +75,14 @@ def test_remove_duplicates(messy_fs):
     f_organizer.remove_duplicates(Path('X'), duplicates)
     duplicates_after = f_organizer.file_finder.find_duplicates()
     assert not duplicates_after.values()
+
+def test_check_if_name_contains_bad_symbol(f_finder):
+    bad_f_names = ["file:new","file”new","file;new","*filenew","?f?lenew","f$lenew","#flenew","flenew‘","fle|ne|w" ,"fle\\new"]
+    valid_name = "file_new"
+    bad_name_fun = f_finder.check_if_name_contains_bad_symbol
+    assert all(bad_name_fun(f_name) for f_name in bad_f_names)
+    assert bad_name_fun(valid_name) is False
+
 
 
 def test_detect_newer_ver_of_file(small_fs):

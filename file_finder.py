@@ -40,6 +40,19 @@ class FileSysFinder:
         
         return duplicates
     
+    def check_if_name_contains_bad_symbol(self, file_name: str) -> bool:
+        bad_symbols = [":", "”", ";", "*", "?", "$", "#", "‘", "|", "\\"]
+        return any(char in bad_symbols for char in file_name)
+    
+    
+    def find_files_with_bad_names(self) -> dict[Path, list[Path]]:
+        files_with_bad_names = []
+        for file in self.files:
+            if self.check_if_name_contains_bad_symbol(file.name):
+                files_with_bad_names.append(file)
+
+        return files_with_bad_names
+    
     def find_newer_ver_of_file(self):
         newer_ver = defaultdict(list)
         for index, file in enumerate(self.files):
