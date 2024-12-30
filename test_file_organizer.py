@@ -83,6 +83,15 @@ def test_check_if_name_contains_bad_symbol(f_finder):
     assert all(bad_name_fun(f_name) for f_name in bad_f_names)
     assert bad_name_fun(valid_name) is False
 
+def test_find_files_with_bad_names(messy_fs):
+    f_finder = FileSysFinder([Path('X'), Path('Y1'), Path('Y2'), Path('Y3')])
+    f_with_bad_names = f_finder.find_files_with_bad_names()
+    assert len(f_with_bad_names) == 2
+
+def test_replace_bad_symbols_with_char():
+    bad_f_name = 'fil$e:new!|!'
+    file_organizer = FileOrganizer(Path('X'), Path('Y'))
+    assert file_organizer.replace_bad_symbols_with_special_char(bad_f_name) == 'fil_e_new!_!'
 
 
 def test_detect_newer_ver_of_file(small_fs):

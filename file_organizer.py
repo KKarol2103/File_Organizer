@@ -37,10 +37,27 @@ class FileOrganizer:
             if dec == 1:
                 self.remove_duplicates(self._main_dir, duplicates)
 
+        f_with_bad_names = self.file_finder.find_files_with_bad_names()
+        if f_with_bad_names:
+            FileOrganizerUI.show_files_with_bad_names(f_with_bad_names)
+            dec = FileOrganizerUI.ask_what_to_do_with_bad_f_names()
+            if dec == 1:
+                for file in f_with_bad_names:
+                    new_f_name = self.replace_bad_symbols_with_special_char(file.name)
+                    file = file.with_name(new_f_name)
+
+
     def remove_files_from_fs(self, files_to_remove: list[Path]):
         for file in list(files_to_remove):
             os.remove(Path.absolute(file))
         self.file_finder.update()
+
+    def replace_bad_symbols_with_special_char(self, f_name: str, char: str = '_'):
+        bad_symbols = [":", "”", ";", "*", "?", "$", "#", "‘", "|", "\\"]
+        new_f_name = f_name
+        for symbol in bad_symbols:
+            new_f_name = new_f_name.replace(symbol, char)
+        return new_f_name
 
     def remove_duplicates(self, main_dir: Path, duplicates: defaultdict[Path, list[Path]]):
         for file, f_duplicates in duplicates.items():

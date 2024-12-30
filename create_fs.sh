@@ -28,9 +28,13 @@ echo "trip costs" > Y1/trips/Ncosts.txt
 echo "Photo1" > Y2/photos/photo1.png
 echo "Photo2" > Y2/photos/photo2.png
 echo "Photo3" > Y2/photos/photo3.png
+echo "Photo4" > Y2/photos/photo\$4.png
+
 echo "Some_basic_file" > Y2/data/a.txt
 echo "b txt info" > Y2/data/b.txt
 echo "c txt info" > Y2/data/c.txt
+echo "d txt info" > Y2/data/d\*1!.txt
+
 
 touch Y3/empty.dat
 touch Y3/empty1.dat

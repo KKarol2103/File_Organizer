@@ -45,7 +45,7 @@ class FileSysFinder:
         return any(char in bad_symbols for char in file_name)
     
     
-    def find_files_with_bad_names(self) -> dict[Path, list[Path]]:
+    def find_files_with_bad_names(self) -> list[Path]:
         files_with_bad_names = []
         for file in self.files:
             if self.check_if_name_contains_bad_symbol(file.name):

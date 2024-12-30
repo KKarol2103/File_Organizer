@@ -21,6 +21,12 @@ class FileOrganizerUI:
             print('\n')
 
     @staticmethod
+    def show_files_with_bad_names(files_with_bad_names: list[Path]):
+        print("\nBad Names found \n")
+        for i, bad_file in enumerate(files_with_bad_names):
+            print(f'{i} {bad_file}')
+
+    @staticmethod
     def get_decision_from_user()->int:
         print("Decide what to do with empty files:")
         print('1. Remove all empty files')
@@ -33,6 +39,13 @@ class FileOrganizerUI:
         print("Decide what to do with duplicates")
         print(f'1. Delete all duplicates outside main dir (outside {main_dir})')
         print("2. Leave all duplicates")
+        return int(input("Decision:"))
+    
+    @staticmethod
+    def ask_what_to_do_with_bad_f_names() -> int:
+        print("Decide what to do with these bad names")
+        print("1. Replace all bad symbols in file names with given char (Default char: '_' )")
+        print("2. Do nothing")
         return int(input("Decision:"))
 
     @staticmethod

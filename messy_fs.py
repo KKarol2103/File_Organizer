@@ -34,10 +34,13 @@ def messy_fs():
         patcher.fs.create_file('Y2/photos/photo1.png', contents='Photo1')
         patcher.fs.create_file('Y2/photos/photo2.png', contents='Photo2')
         patcher.fs.create_file('Y2/photos/photo3.png', contents='Photo3')
+        patcher.fs.create_file('Y2/photos/photo$4.png', contents='Photo4')
 
         patcher.fs.create_file('Y2/data/a.txt', contents='Some_basic_file')
         patcher.fs.create_file('Y2/data/b.txt', contents='b txt info')
         patcher.fs.create_file('Y2/data/c.txt', contents='c txt info')
+        patcher.fs.create_file('Y2/data/d*1.txt', contents='d txt info')
+
 
         patcher.fs.create_dir('Y3')
         patcher.fs.create_file('Y3/empty.dat')
