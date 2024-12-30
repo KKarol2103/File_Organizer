@@ -12,39 +12,54 @@ class FileOrganizer:
         self._other_directories = list(args)
         self.file_finder = FileSysFinder(self._other_directories + [main_dir])
 
+    def handle_empty_files(self, empty_files: list[Path]):
+        FileOrganizerUI.show_empty_files(empty_files)
+        dec = FileOrganizerUI.get_decision_from_user()
+        FileOrganizerUI.show_action(dec)
+        if dec == 1:
+            self.remove_files_from_fs(empty_files)
+
+        if dec == 3:
+            files_indx_to_remove = FileOrganizerUI.ask_which_files_to_remove()
+            files_to_remove = [empty_files[index] for index in files_indx_to_remove]
+            self.remove_files_from_fs(files_to_remove)
+
+        print('Files removed') if dec != 2 else print("Files not changed")
+        time.sleep(1)
+
+    def handle_duplicates(self, duplicates: defaultdict[Path, list[Path]]):
+        FileOrganizerUI.show_duplicates(duplicates)
+        dec = FileOrganizerUI.ask_what_to_do_with_duplicates(self._main_dir)
+        if dec == 1:
+            self.remove_duplicates(self._main_dir, duplicates)
+        time.sleep(1)
+
+    def handle_bad_file_names(self, files_with_bad_names: list[Path]):
+        FileOrganizerUI.show_files_with_bad_names(files_with_bad_names)
+        dec = FileOrganizerUI.ask_what_to_do_with_bad_f_names()
+        if dec == 1:
+            for file in files_with_bad_names:
+                new_f_name = self.replace_bad_symbols_with_special_char(file.name)
+                file.rename(file.with_name(new_f_name))
+            print("Renaming files...")
+            time.sleep(1)
+            print("Done")
+
+
 
     def organize_fs(self):
         empty_files = self.file_finder.find_empty_files()
         if empty_files:
-            FileOrganizerUI.show_empty_files(empty_files)
-            dec = FileOrganizerUI.get_decision_from_user()
-            FileOrganizerUI.show_action(dec)
-            if dec == 1:
-                self.remove_files_from_fs(empty_files)
-
-            if dec == 3:
-                files_indx_to_remove = FileOrganizerUI.ask_which_files_to_remove()
-                files_to_remove = [empty_files[index] for index in files_indx_to_remove]
-                self.remove_files_from_fs(files_to_remove)
-
-            print('Files removed') if dec != 2 else print("Files not changed")
-            time.sleep(1)
+            self.handle_empty_files(empty_files)
 
         duplicates = self.file_finder.find_duplicates()
         if duplicates:
-            FileOrganizerUI.show_duplicates(duplicates)
-            dec = FileOrganizerUI.ask_what_to_do_with_duplicates(self._main_dir)
-            if dec == 1:
-                self.remove_duplicates(self._main_dir, duplicates)
+            self.handle_duplicates(duplicates)
 
         f_with_bad_names = self.file_finder.find_files_with_bad_names()
         if f_with_bad_names:
-            FileOrganizerUI.show_files_with_bad_names(f_with_bad_names)
-            dec = FileOrganizerUI.ask_what_to_do_with_bad_f_names()
-            if dec == 1:
-                for file in f_with_bad_names:
-                    new_f_name = self.replace_bad_symbols_with_special_char(file.name)
-                    file = file.with_name(new_f_name)
+            self.handle_bad_file_names(f_with_bad_names)
+            
 
 
     def remove_files_from_fs(self, files_to_remove: list[Path]):
