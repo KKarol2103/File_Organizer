@@ -1,93 +1,198 @@
-# File_Organizer
+# Dokumentacja Projektu: Organizacja Systemu Plików
 
+## Autor
+Karol Kuc
 
+## Wprowadzenie
+Ten projekt ma na celu demonstrację organizacji systemu plików poprzez utworzenie przykładowej struktury katalogów i plików przy użyciu skryptu Bash. Wygenerowana struktura może być używana jako baza do testowania różnych operacji na systemie plików.
 
-## Getting started
+----------
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Skrypty
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- ## Skrypt Tworzący Strukturę Plików
 
-## Add your files
+### Opis
+Skrypt Bash tworzy strukturę katalogów i plików z zawartością w odpowiednich miejscach. Struktura zawiera katalogi i pliki przeznaczone do różnych celów, takich jak zdjęcia, dokumenty, dane i inne.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Struktura Katalogów i Plików
+
+1.  **test/** - Główny katalog
+
+-  **X/**
+
+-  **some_dir/**
+
+-  **photos/**
+
+- photo1.png
+
+- photo2.png
+
+- photo3.png
+
+-  **docs/**
+
+- trip.docx
+
+- a.txt
+
+- some_dir/empty.dat
+
+-  **Y1/**
+
+- photo_cpy.png
+
+-  **trips/**
+
+- trip_to_US.docx
+
+- Ncosts.txt
+
+-  **Y2/**
+
+-  **photos/**
+
+- photo1.png
+
+- photo2.png
+
+- photo3.png
+
+- photo$4.png
+
+-  **data/**
+
+- a.txt
+
+- b.txt
+
+- c.txt
+
+- d*1!.txt
+
+-  **Y3/**
+
+- empty.dat
+
+- empty1.dat
+
+- empty2.dat
+
+----------
+## Struktura Po Wykonaniu Skryptu
+Po uruchomieniu skryptu otrzymasz następującą strukturę plików i katalogów:
+```
+test/
+
+|-- X/
+
+| |-- a.txt
+
+| |-- some_dir/
+
+| | |-- empty.dat
+
+| | `-- photos/
+
+| | |-- photo1.png
+
+| | |-- photo2.png
+
+| | `-- photo3.png
+
+| `-- docs/
+
+| `-- trip.docx
+
+|-- Y1/
+
+| |-- photo_cpy.png
+
+| `-- trips/
+
+| |-- trip_to_US.docx
+
+| `-- Ncosts.txt
+
+|-- Y2/
+
+| |-- photos/
+
+| | |-- photo1.png
+
+| | |-- photo2.png
+
+| | |-- photo3.png
+
+| | `-- photo$4.png
+
+| `-- data/
+
+| |-- a.txt
+
+| |-- b.txt
+
+| |-- c.txt
+
+| `-- d*1!.txt
+
+`-- Y3/
+
+|-- empty.dat
+
+|-- empty1.dat
+
+`-- empty2.dat
 
 ```
-cd existing_repo
-git remote add origin https://gitlab-stud.elka.pw.edu.pl/kkuc/file_organizer.git
-git branch -M main
-git push -uf origin main
-```
 
-## Integrate with your tools
+## Klasy w Projekcie
+### FileComparision
+Klasa odpowiada za różnorodne operacje porównawcze na plikach.
 
-- [ ] [Set up project integrations](https://gitlab-stud.elka.pw.edu.pl/kkuc/file_organizer/-/settings/integrations)
+#### Funkcje:
+-   **compare_two_files(file1, file2)**: Porównuje zawartość dwóch plików.
+    
+-   **check_if_file_empty(file)**: Sprawdza, czy plik jest pusty.
+    
+-   **check_if_file_is_newer_ver_of_other(file1, file2)**: Sprawdza, czy jeden plik jest nowszą wersją drugiego.
+    
 
-## Collaborate with your team
+### FileSysFinder
+Klasa odpowiedzialna za wyszukiwanie plików w systemie plików.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+#### Funkcje:
+-   **get_all_files_from_dir(dir_path)**: Pobiera wszystkie pliki z danego katalogu.
+    
+-   **find_empty_files()**: Znajduje wszystkie puste pliki.
+    
+-   **find_duplicates()**: Znajduje zduplikowane pliki.
+    
+-   **find_files_with_bad_names()**: Znajduje pliki z nieprawidłowymi nazwami.
+    
+-   **find_newer_ver_of_file()**: Znajduje nowsze wersje plików.
+    
 
-## Test and Deploy
+### FileOrganizer
+Klasa główna zarządzająca organizacją systemu plików.
 
-Use the built-in continuous integration in GitLab.
+#### Funkcje:
+-   **organize_fs()**: Główna funkcja organizująca pliki - obsługuje puste pliki, duplikaty i złe nazwy plików.
+    
+-   **remove_files_from_fs(files_to_remove)**: Usuwa pliki z systemu plików.
+    
+-   **replace_bad_symbols_with_special_char(f_name, char)**: Zastępuje nieprawidłowe symbole w nazwach plików.
+    
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### FileOrganizerUI
+Klasa obsługująca interfejs użytkownika dla operacji organizacji plików.
 
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+#### Funkcje:
+-   **show_empty_files(empty_files)**: Wyświetla listę pustych plików.
+    
+-   **show_duplicates(duplicates)**: Wyświetla listę zduplikowanych plików.
+    
+-   **show_files_with_bad_names(files_with_bad_names)**: Wyświetla listę plików z nieprawidłowymi nazwami.
+    
+-   **ask_what_to_do_with_bad_f_names()**: Pyta użytkownika, co zrobić z nieprawidłowymi nazwami plików.
