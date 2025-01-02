@@ -4,9 +4,13 @@
 Karol Kuc
 
 ## Wprowadzenie
-Celem projektu jest napisanie skryptu w wybranym języku (w moim przypadku jest to **Python + Bash**) który umożliwi wykonanie różnych, opisanych w instrukcji operacji na systemie plików prowadzących do porządkowania struktury plików. 
+Celem projektu jest napisanie skryptu w wybranym języku (w moim przypadku jest to **Python + Bash**) który umożliwi wykonanie różnych, opisanych w instrukcji operacji na systemie plików prowadzących do porządkowania struktury plików.
 
-W celu realizacji zadania napisałem opisane poniżej skrypty. 
+W celu realizacji zadania napisałem opisane poniżej skrypty.
+
+- ### Uwaga!!!
+W celu uruchomienia skryptów nie są wymagane żadne zewnętrzne biblioteki. Jednakże trzeba mieć zainstalowaną wersję **pythona 3.9 lub nowszą** z powodu type hints.
+
 ----------
 
 ## Skrypty
@@ -14,7 +18,7 @@ W celu realizacji zadania napisałem opisane poniżej skrypty.
 - ## Skrypt Uruchamiający Projekt
 
 - ### Opis
-**run.sh** : Skrypt Bash odpowiedzialny za stworzenie przykładowej struktury plików i katalogów (przy pomocy opisanego poniżej skryptu **create_fs.sh**) a następnie uruchomieniu na stworzonej strukturze właściwego skryptu **file_organizer.py** odpowiedzialnego za porządkowanie systemu plików. 
+**run.sh** : Skrypt Bash odpowiedzialny za stworzenie przykładowej struktury plików i katalogów (przy pomocy opisanego poniżej skryptu **create_fs.sh**) a następnie uruchomieniu na stworzonej strukturze właściwego skryptu **file_organizer.py** odpowiedzialnego za porządkowanie systemu plików.
 
 - ### Uwaga!!!
 Ten skrypt służy do demonstracji działania napisanego programu na przykładowej strukturze plików opisanej poniżej w dokumentacji.
@@ -109,46 +113,46 @@ Klasa odpowiada za różnorodne operacje porównawcze na plikach.
 
 #### Funkcje:
 -   **compare_two_files(file1, file2)**: Porównuje zawartość dwóch plików.
-    
+
 -   **check_if_file_empty(file)**: Sprawdza, czy plik jest pusty.
-    
+
 -   **check_if_file_is_newer_ver_of_other(file1, file2)**: Sprawdza, czy jeden plik jest nowszą wersją drugiego.
-    
+
 
 ### FileSysFinder
 Klasa odpowiedzialna za wyszukiwanie plików w systemie plików.
 
 #### Funkcje:
 -   **get_all_files_from_dir(dir_path)**: Pobiera wszystkie pliki z danego katalogu.
-    
+
 -   **find_empty_files()**: Znajduje wszystkie puste pliki.
-    
+
 -   **find_duplicates()**: Znajduje zduplikowane pliki.
-    
+
 -   **find_files_with_bad_names()**: Znajduje pliki z nieprawidłowymi nazwami.
-    
+
 -   **find_newer_ver_of_file()**: Znajduje nowsze wersje plików.
-    
+
 
 ### FileOrganizer
 Klasa główna zarządzająca organizacją systemu plików.
 
 #### Funkcje:
 -   **organize_fs()**: Główna funkcja organizująca pliki - obsługuje puste pliki, duplikaty i złe nazwy plików.
-    
+
 -   **remove_files_from_fs(files_to_remove)**: Usuwa pliki z systemu plików.
-    
+
 -   **replace_bad_symbols_with_special_char(f_name, char)**: Zastępuje nieprawidłowe symbole w nazwach plików.
-    
+
 
 ### FileOrganizerUI
 Klasa obsługująca interfejs użytkownika dla operacji organizacji plików.
 
 #### Funkcje:
 -   **show_empty_files(empty_files)**: Wyświetla listę pustych plików.
-    
+
 -   **show_duplicates(duplicates)**: Wyświetla listę zduplikowanych plików.
-    
+
 -   **show_files_with_bad_names(files_with_bad_names)**: Wyświetla listę plików z nieprawidłowymi nazwami.
-    
+
 -   **ask_what_to_do_with_bad_f_names()**: Pyta użytkownika, co zrobić z nieprawidłowymi nazwami plików.

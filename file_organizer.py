@@ -5,6 +5,7 @@ from pathlib import Path
 from file_finder import FileSysFinder
 from fileOrganizerUI import FileOrganizerUI
 import time
+import shutil
 
 class FileOrganizer:
     def __init__(self, main_dir: Path, *args: tuple[Path]):
@@ -45,7 +46,23 @@ class FileOrganizer:
             time.sleep(1)
             print("Done")
 
+    def synchronize_trees(self, src: Path, dest: Path):
+        for file in src.rglob('*'):
+            if file.is_file():
+                relative_path = file.relative_to(src)
+                dest_file = dest / relative_path
 
+                dest_file.parent.mkdir(parents=True, exist_ok=True)
+
+                if not dest_file.exists():
+                    shutil.move(str(file), str(dest_file))
+
+    def move_all_unique_files_to_main_dir(self):
+        print("Synchronizing trees")
+        for other_dir in self._other_directories:
+            self.synchronize_trees(other_dir, self._main_dir)
+        time.sleep(1)
+        print("Done")
 
     def organize_fs(self):
         empty_files = self.file_finder.find_empty_files()
@@ -59,7 +76,10 @@ class FileOrganizer:
         f_with_bad_names = self.file_finder.find_files_with_bad_names()
         if f_with_bad_names:
             self.handle_bad_file_names(f_with_bad_names)
-            
+
+        self.move_all_unique_files_to_main_dir()
+
+
 
 
     def remove_files_from_fs(self, files_to_remove: list[Path]):
