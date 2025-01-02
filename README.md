@@ -156,3 +156,19 @@ Klasa obsługująca interfejs użytkownika dla operacji organizacji plików.
 -   **show_files_with_bad_names(files_with_bad_names)**: Wyświetla listę plików z nieprawidłowymi nazwami.
 
 -   **ask_what_to_do_with_bad_f_names()**: Pyta użytkownika, co zrobić z nieprawidłowymi nazwami plików.
+
+
+## Działanie
+- Główna klasa (**FileOrganizer**) posiada metodę *organize_fs* która po kolei:
+1. Sprawdza czy nie ma pustych plików a jeśli takie pliki istnieją użytkownik dostaje możliwość:
+-   Usunięcia Wszystkich pustych plików
+-   Zostawienia Wszystkich pustych plików
+-   Usunięcia Tylko Wybranych Plików
+2. Sprawdza istnienie takich samych plików w systemie (duplikatów). Użytkownik ma możliwość:
+-   Usunięcia Wszystkich Duplikatów **Znajdujących się poza Głównym Katalogiem**
+-   Pozostawienie Duplikatów
+3. Sprawdza istnienie plików zawierających kłopotliwe znaki ([":", "”", ";", "*", "?", "$", "#", "‘", "|", "\\"]). Użytkownik ma możliwość:
+-   Zamiany wszystkich kłopotliwych znaków w nazwach plików na ustalony symbol np. "_"
+-   Pozostawienia Plików
+4.  Finalnie funkcja przenosi wszystkie unikalne pliki (pliki które znajdują się w pozostałych katalogach a nie ma ich w głównym) z innych katalogów do katalogu głównego.
+5.  Działanie programu się kończy.

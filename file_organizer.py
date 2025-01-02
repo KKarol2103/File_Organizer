@@ -15,7 +15,7 @@ class FileOrganizer:
 
     def handle_empty_files(self, empty_files: list[Path]):
         FileOrganizerUI.show_empty_files(empty_files)
-        dec = FileOrganizerUI.get_decision_from_user()
+        dec = FileOrganizerUI.ask_what_to_do_with_empty_files()
         FileOrganizerUI.show_action(dec)
         if dec == 1:
             self.remove_files_from_fs(empty_files)
@@ -78,8 +78,6 @@ class FileOrganizer:
             self.handle_bad_file_names(f_with_bad_names)
 
         self.move_all_unique_files_to_main_dir()
-
-
 
 
     def remove_files_from_fs(self, files_to_remove: list[Path]):

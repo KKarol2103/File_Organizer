@@ -27,7 +27,7 @@ class FileOrganizerUI:
             print(f'{i} {bad_file}')
 
     @staticmethod
-    def get_decision_from_user()->int:
+    def ask_what_to_do_with_empty_files()->int:
         print("Decide what to do with empty files:")
         print('1. Remove all empty files')
         print('2. Leave all empty files')
@@ -40,7 +40,7 @@ class FileOrganizerUI:
         print(f'1. Delete all duplicates outside main dir (outside {main_dir})')
         print("2. Leave all duplicates")
         return int(input("Decision:"))
-    
+
     @staticmethod
     def ask_what_to_do_with_bad_f_names() -> int:
         print("Decide what to do with these bad names")
@@ -63,6 +63,6 @@ class FileOrganizerUI:
         if decision == 3:
             print("Type file numbers to remove - SEPARATE BY SPACE")
 
-            
+
 
 
