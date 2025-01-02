@@ -10,12 +10,18 @@ Ten projekt ma na celu demonstrację organizacji systemu plików poprzez utworze
 
 ## Skrypty
 
+- ## Skrypt Uruchamiający Projekt
+
+- ### Opis
+**run.sh** : Skrypt Bash odpowiedzialny za stworzenie przykładowej struktury plików i katalogów (przy pomocy opisanego poniżej skryptu **create_fs.sh**) a następnie uruchomieniu na stworzonej strukturze właściwego programu 
+
+
 - ## Skrypt Tworzący Strukturę Plików
 
-### Opis
-Skrypt Bash tworzy strukturę katalogów i plików z zawartością w odpowiednich miejscach. Struktura zawiera katalogi i pliki przeznaczone do różnych celów, takich jak zdjęcia, dokumenty, dane i inne.
+- ### Opis
+**create_fs.sh** : Skrypt Bash tworzy strukturę katalogów i plików z zawartością w odpowiednich miejscach. Struktura zawiera katalogi i pliki przeznaczone do różnych celów, takich jak zdjęcia, dokumenty, dane i inne.
 
-### Struktura Katalogów i Plików
+- ### Struktura Katalogów i Plików
 
 1.  **test/** - Główny katalog
 
@@ -79,73 +85,10 @@ Skrypt Bash tworzy strukturę katalogów i plików z zawartością w odpowiednic
 
 - empty2.dat
 
-----------
-## Struktura Po Wykonaniu Skryptu
-Po uruchomieniu skryptu otrzymasz następującą strukturę plików i katalogów:
-```
-test/
+- ## Skrypt Usuwający Strukturę Plików
+- ### Opis
+**delete_fs.sh** : Skrypt Bash odpowiada za usunięcie wszystkich wcześniej utworzonych katalogów i plików przy pomocy **create_fs.sh**.
 
-|-- X/
-
-| |-- a.txt
-
-| |-- some_dir/
-
-| | |-- empty.dat
-
-| | `-- photos/
-
-| | |-- photo1.png
-
-| | |-- photo2.png
-
-| | `-- photo3.png
-
-| `-- docs/
-
-| `-- trip.docx
-
-|-- Y1/
-
-| |-- photo_cpy.png
-
-| `-- trips/
-
-| |-- trip_to_US.docx
-
-| `-- Ncosts.txt
-
-|-- Y2/
-
-| |-- photos/
-
-| | |-- photo1.png
-
-| | |-- photo2.png
-
-| | |-- photo3.png
-
-| | `-- photo$4.png
-
-| `-- data/
-
-| |-- a.txt
-
-| |-- b.txt
-
-| |-- c.txt
-
-| `-- d*1!.txt
-
-`-- Y3/
-
-|-- empty.dat
-
-|-- empty1.dat
-
-`-- empty2.dat
-
-```
 
 ## Klasy w Projekcie
 ### FileComparision
