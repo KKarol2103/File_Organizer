@@ -4,8 +4,9 @@
 Karol Kuc
 
 ## Wprowadzenie
-Ten projekt ma na celu demonstrację organizacji systemu plików poprzez utworzenie przykładowej struktury katalogów i plików przy użyciu skryptu Bash. Wygenerowana struktura może być używana jako baza do testowania różnych operacji na systemie plików.
+Celem projektu jest napisanie skryptu w wybranym języku (w moim przypadku jest to **Python + Bash**) który umożliwi wykonanie różnych, opisanych w instrukcji operacji na systemie plików prowadzących do porządkowania struktury plików. 
 
+W celu realizacji zadania napisałem opisane poniżej skrypty. 
 ----------
 
 ## Skrypty
@@ -13,8 +14,20 @@ Ten projekt ma na celu demonstrację organizacji systemu plików poprzez utworze
 - ## Skrypt Uruchamiający Projekt
 
 - ### Opis
-**run.sh** : Skrypt Bash odpowiedzialny za stworzenie przykładowej struktury plików i katalogów (przy pomocy opisanego poniżej skryptu **create_fs.sh**) a następnie uruchomieniu na stworzonej strukturze właściwego programu 
+**run.sh** : Skrypt Bash odpowiedzialny za stworzenie przykładowej struktury plików i katalogów (przy pomocy opisanego poniżej skryptu **create_fs.sh**) a następnie uruchomieniu na stworzonej strukturze właściwego skryptu **file_organizer.py** odpowiedzialnego za porządkowanie systemu plików. 
 
+- ### Uwaga!!!
+Ten skrypt służy do demonstracji działania napisanego programu na przykładowej strukturze plików opisanej poniżej w dokumentacji.
+
+Jeśli chcesz uruchomić file_organizer.py na dowolnej istniejącej strukturze katalogów, możesz to zrobić bez użycia skryptu run.sh. Wystarczy wywołać go w następujący sposób:
+
+python3 ./file_organizer.py <Główny katalog> [Pozostałe katalogi]
+Główny katalog: Ścieżka do głównego katalogu, w którym mają się znaleźć wszystkie pliki.
+[Pozostałe katalogi] (opcjonalne): Dodatkowe katalogi do uwzględnienia w procesie organizacji.
+Przykład użycia:
+
+python3 ./file_organizer.py /home/user/documents /home/user/photos
+W powyższym przykładzie skrypt uporządkuje pliki znajdujące się w katalogach /home/user/documents oraz /home/user/photos.
 
 - ## Skrypt Tworzący Strukturę Plików
 
