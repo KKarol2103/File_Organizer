@@ -38,9 +38,21 @@ W powyższym przykładzie skrypt uporządkuje pliki znajdujące się w katalogac
 - ### Opis
 **create_fs.sh** : Skrypt Bash tworzy strukturę katalogów i plików z zawartością w odpowiednich miejscach. Struktura zawiera katalogi i pliki przeznaczone do różnych celów, takich jak zdjęcia, dokumenty, dane i inne.
 
-- ### Struktura Katalogów i Plików
+## Struktura Katalogów i Plików
 
 ![FS Structure](images/FS_Visualization.jpg)
+
+## Wyjaśnienie kolorów na diagramie struktury plików
+
+Na diagramie przedstawiono strukturę plików, w której zastosowano różne kolory w celu wyróżnienia typów plików:
+
+- **Szary**: Pliki puste (np. `empty.dat`, `empty1.dat`).
+- **Czerwony**: Pliki o specjalnych nazwach lub zawierające znaki specjalne (np. `d*1!.txt`).
+- **Pozostałe Kolory**: są używane w celu wskazania **duplikatów**. Jeśli oba pliki mają taki sam kolor (inny niż te wspomniane powyżej) - oznacza to, że ich zawartość jest identyczna.
+
+### Legenda
+
+Każdy kolor ma na celu ułatwienie identyfikacji rodzaju plików oraz ich znaczenia w strukturze folderów.
 
 - ## Skrypt Usuwający Strukturę Plików
 - ### Opis
