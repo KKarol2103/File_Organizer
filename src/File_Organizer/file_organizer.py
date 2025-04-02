@@ -2,8 +2,8 @@ import os
 from argparse import ArgumentParser
 from collections import defaultdict
 from pathlib import Path
-from file_finder import FileSysFinder
-from fileOrganizerUI import FileOrganizerUI
+from File_Organizer.file_finder import FileSysFinder
+from File_Organizer.fileOrganizerUI import FileOrganizerUI
 import time
 import shutil
 

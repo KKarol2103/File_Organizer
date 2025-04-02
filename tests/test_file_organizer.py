@@ -1,9 +1,9 @@
 import pytest
 import os
-from file_organizer import FileOrganizer, Path
-from file_finder import FileSysFinder
-from file_comparision import FileComparision
-from messy_fs import messy_fs, small_fs
+from File_Organizer.file_organizer import FileOrganizer, Path
+from File_Organizer.file_finder import FileSysFinder
+from File_Organizer.file_comparision import FileComparision
+from File_Organizer.messy_fs import messy_fs, small_fs
 
 
 @pytest.fixture
@@ -56,7 +56,7 @@ def test_find_duplicates(messy_fs):
     all_files = f_finder.get_all_files()
     duplicates = f_finder.find_duplicates()
     assert len(duplicates.keys()) == 6
-    
+
 
 def test_remove_empty_files_from_fs(messy_fs):
     f_organizer = FileOrganizer(Path('X'), Path('Y1'), Path('Y2'), Path('Y3'))

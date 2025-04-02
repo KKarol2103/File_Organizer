@@ -2,7 +2,7 @@ from pathlib import Path
 from collections import defaultdict
 from itertools import chain
 import os
-from file_comparision import FileComparision
+from File_Organizer.file_comparision import FileComparision
 
 class FileSysFinder:
     def __init__(self, directories: list[Path]) -> None:
